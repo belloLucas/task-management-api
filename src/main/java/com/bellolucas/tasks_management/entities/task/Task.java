@@ -21,7 +21,7 @@ public class Task {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Enumerated()
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
     @ManyToOne
@@ -36,4 +36,15 @@ public class Task {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }
