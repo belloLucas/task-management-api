@@ -25,6 +25,7 @@ public class Task {
 
     private Long assignee;
     private Date deadline;
+    private Boolean completed;
     private Date created_at;
     private Date updated_at;
 }
