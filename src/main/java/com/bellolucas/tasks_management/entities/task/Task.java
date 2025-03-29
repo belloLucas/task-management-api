@@ -1,5 +1,6 @@
 package com.bellolucas.tasks_management.entities.task;
 
+import com.bellolucas.tasks_management.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,10 @@ public class Task {
     @Enumerated()
     private Priority priority;
 
-    private Long assignee;
+    @ManyToOne
+    @JoinColumn(name = "assignee", referencedColumnName = "id")
+    private User assignee;
+
     private Date deadline;
     private Boolean completed;
     private Date created_at;
