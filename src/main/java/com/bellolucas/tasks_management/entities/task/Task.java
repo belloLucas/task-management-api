@@ -20,7 +20,9 @@ public class Task {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String priority;
+    @Enumerated()
+    private Priority priority;
+
     private Long assignee;
     private Date deadline;
     private Date created_at;
