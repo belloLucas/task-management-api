@@ -4,7 +4,7 @@ import com.bellolucas.tasks_management.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -28,8 +28,8 @@ public class Task {
     @JoinColumn(name = "assignee", referencedColumnName = "id")
     private User assignee;
 
-    private Date deadline;
+    private LocalDateTime deadline;
     private Boolean completed;
-    private Date created_at;
-    private Date updated_at;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 }

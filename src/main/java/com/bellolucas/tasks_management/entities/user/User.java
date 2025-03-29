@@ -3,7 +3,7 @@ package com.bellolucas.tasks_management.entities.user;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +20,6 @@ public class User {
     private String last_name;
     private String email;
     private String password;
-    private Date created_at;
-    private Date updated_at;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 }
