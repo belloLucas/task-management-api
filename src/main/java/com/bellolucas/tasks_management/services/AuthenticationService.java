@@ -5,6 +5,7 @@ import com.bellolucas.tasks_management.dto.auth.AuthRequestDTO;
 import com.bellolucas.tasks_management.dto.auth.AuthResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -22,16 +23,21 @@ public class AuthenticationService {
     private AuthUserDetailsService userDetailsService;
 
     public AuthResponseDTO authenticate(AuthRequestDTO request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email(),
-                        request.password()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.email(),
+                            request.password()
+                    )
+            );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
-        String jwtToken = jwtService.generateToken(userDetails);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(request.email());
+            String jwtToken = jwtService.generateToken(userDetails);
 
-        return new AuthResponseDTO(jwtToken);
+            return new AuthResponseDTO(jwtToken);
+        } catch (
+                BadCredentialsException e) {
+            throw new BadCredentialsException("Email ou senha inválidos");
+        }
     }
 }
