@@ -1,5 +1,6 @@
 package com.bellolucas.tasks_management.entities.task;
 
+import com.bellolucas.tasks_management.dto.task.CreateTaskDTO;
 import com.bellolucas.tasks_management.entities.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,6 +37,14 @@ public class Task {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Task(CreateTaskDTO data, User assignee) {
+        this.title = data.title();
+        this.description = data.description();
+        this.priority = data.priority();
+        this.assignee = assignee;
+        this.deadline = data.deadline();
+    }
 
     @PrePersist
     public void onCreate() {
