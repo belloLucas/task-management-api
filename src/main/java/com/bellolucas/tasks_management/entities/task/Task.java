@@ -44,6 +44,7 @@ public class Task {
         this.priority = data.priority();
         this.assignee = assignee;
         this.deadline = data.deadline();
+        this.completed = false;
     }
 
     @PrePersist
