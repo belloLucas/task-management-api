@@ -1,5 +1,6 @@
 package com.bellolucas.tasks_management.entities.user;
 
+import com.bellolucas.tasks_management.dto.user.CreateUserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,13 @@ public class User {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public User(CreateUserDTO data, String encodedPassword) {
+        this.firstName = data.firstName();
+        this.lastName = data.lastName();
+        this.email = data.email();
+        this.password = encodedPassword;
+    }
 
     @PrePersist
     public void onCreate() {
