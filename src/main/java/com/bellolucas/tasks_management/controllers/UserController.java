@@ -19,6 +19,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid CreateUserDTO data) {
+        User user = userService.createUser(data);
+        return ResponseEntity.status(201).body(new UserResponseDTO(user));
+    }
+
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         List<UserResponseDTO> users = userService.getAllUsers().stream()
@@ -31,12 +37,6 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(new UserResponseDTO(user));
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid CreateUserDTO data) {
-        User user = userService.createUser(data);
-        return ResponseEntity.status(201).body(new UserResponseDTO(user));
     }
 
     @PatchMapping("/{id}")
