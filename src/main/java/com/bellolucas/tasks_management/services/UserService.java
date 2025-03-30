@@ -1,6 +1,7 @@
 package com.bellolucas.tasks_management.services;
 
 import com.bellolucas.tasks_management.dto.user.CreateUserDTO;
+import com.bellolucas.tasks_management.dto.user.UpdateUserDTO;
 import com.bellolucas.tasks_management.entities.user.User;
 import com.bellolucas.tasks_management.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,43 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUser(Long id, UpdateUserDTO data) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+        if (data.firstName() != null) {
+            user.setFirstName(data.firstName());
+        }
+
+        if (data.lastName() != null) {
+            user.setLastName(data.lastName());
+        }
+
+        if (data.email() != null) {
+            user.setEmail(data.email());
+        }
+
+        if (data.password() != null) {
+            String encodedPassword = passwordEncoder.encode(data.password());
+            user.setPassword(encodedPassword);
+        }
+
+        return userRepository.save(user);
+    }
+
     public User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("Usuário não encontrado");
+        }
+        userRepository.deleteById(id);
     }
 }
